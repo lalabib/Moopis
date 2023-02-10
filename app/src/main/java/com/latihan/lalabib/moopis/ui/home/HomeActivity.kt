@@ -1,5 +1,6 @@
 package com.latihan.lalabib.moopis.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.latihan.lalabib.moopis.R
 import com.latihan.lalabib.moopis.databinding.ActivityHomeBinding
+import com.latihan.lalabib.moopis.ui.detail.DetailActivity
 import com.latihan.lalabib.moopis.utils.Status
 import com.latihan.lalabib.moopis.utils.ViewModelFactory
 
@@ -36,7 +38,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupData() {
-        val movieAdapter = MovieAdapter()
+        val movieAdapter = MovieAdapter { movie ->
+            Intent(this@HomeActivity, DetailActivity::class.java).apply {
+                putExtra(DetailActivity.EXTRA_DATA, movie.id)
+                startActivity(this)
+            }
+        }
 
         homeViewModel.getMovies().observe(this) { movies ->
             if (movies != null) {

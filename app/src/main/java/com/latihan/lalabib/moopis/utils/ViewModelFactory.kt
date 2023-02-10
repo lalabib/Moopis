@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.latihan.lalabib.moopis.data.MoopisRepository
 import com.latihan.lalabib.moopis.di.Injection
+import com.latihan.lalabib.moopis.ui.detail.DetailViewModel
 import com.latihan.lalabib.moopis.ui.home.HomeViewModel
 
 class ViewModelFactory(private val moopisRepository: MoopisRepository) :
@@ -15,6 +16,9 @@ class ViewModelFactory(private val moopisRepository: MoopisRepository) :
         return when {
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(moopisRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(moopisRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel Class: $modelClass")
         }

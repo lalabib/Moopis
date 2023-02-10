@@ -12,7 +12,7 @@ import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 import com.latihan.lalabib.moopis.databinding.ItemMovieBinding
 import com.latihan.lalabib.moopis.utils.IMG_URL
 
-class MovieAdapter : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder>(DIFFUTIL) {
+class MovieAdapter(private val onItemClick: (MoviesEntity) -> Unit) : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder>(DIFFUTIL) {
 
     private object DIFFUTIL: DiffUtil.ItemCallback<MoviesEntity>() {
         override fun areItemsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean {
@@ -25,7 +25,8 @@ class MovieAdapter : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -35,7 +36,7 @@ class MovieAdapter : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder
         }
     }
 
-    class MovieViewHolder(private val binding: ItemMovieBinding):
+    class MovieViewHolder(private val binding: ItemMovieBinding, val onItemClick: (MoviesEntity) -> Unit):
         RecyclerView.ViewHolder(binding.root) {
             fun bind(movie: MoviesEntity) {
                 binding.apply {
@@ -46,6 +47,7 @@ class MovieAdapter : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder
                             .error(R.drawable.ic_broken_img))
                         .into(ivPoster)
                 }
+                itemView.setOnClickListener { onItemClick(movie) }
             }
     }
 }

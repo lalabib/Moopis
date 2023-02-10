@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.latihan.lalabib.moopis.data.remote.response.MoviesResponse
 import com.latihan.lalabib.moopis.networking.ApiConfig
 import com.latihan.lalabib.moopis.BuildConfig.apiKey
+import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +32,27 @@ class RemoteDataSource {
             }
         })
         return resultMovie
+    }
+
+    fun getDetailMovie(id: String): LiveData<ApiResponse<DetailMovieResponse>> {
+        val resultDetailMovie = MutableLiveData<ApiResponse<DetailMovieResponse>>()
+        ApiConfig.instance.getDetailMovie(id, apiKey).enqueue(object : Callback<DetailMovieResponse> {
+            override fun onResponse(
+                call: Call<DetailMovieResponse>,
+                response: Response<DetailMovieResponse>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { resultDetailMovie.value = ApiResponse.success(it) }
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DetailMovieResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+        return resultDetailMovie
     }
 
     companion object {
