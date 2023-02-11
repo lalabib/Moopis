@@ -6,6 +6,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.latihan.lalabib.moopis.data.MoopisRepository
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
+import com.latihan.lalabib.moopis.data.remote.response.ReviewsEntity
+import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
 import com.latihan.lalabib.moopis.utils.Resource
 
 class DetailViewModel(private val moopisRepository: MoopisRepository) : ViewModel() {
@@ -19,5 +21,14 @@ class DetailViewModel(private val moopisRepository: MoopisRepository) : ViewMode
     var detailMovie: LiveData<Resource<MoviesEntity>> =
         Transformations.switchMap(movieId) { movieId ->
             moopisRepository.getDetailMovie(movieId)
+        }
+
+    fun setReviewsData(id: String) {
+        movieId.value = id
+    }
+
+    var reviewData: LiveData<ReviewsResponse> =
+        Transformations.switchMap(movieId) { movieId ->
+            moopisRepository.getReview(movieId)
         }
 }

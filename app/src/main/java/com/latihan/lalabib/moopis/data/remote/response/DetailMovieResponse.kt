@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class DetailMovieResponse(
     @SerializedName("id")
-    var id: String,
+    val id: String,
     @SerializedName("title")
-    var title: String,
+    val title: String,
     @SerializedName("overview")
-    var overview: String,
+    val overview: String,
     @SerializedName("release_date")
-    var releaseDate: String,
+    val releaseDate: String,
     @SerializedName("vote_average")
-    var voteAverage: String,
+    val voteAverage: String,
     @SerializedName("poster_path")
-    var posterPath: String
+    val posterPath: String
 )

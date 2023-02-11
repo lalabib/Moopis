@@ -13,4 +13,8 @@
     <string name="home_title">Movie</string>
     <string name="detail_title">Detail</string>
     <string name="error_message">an error occurred while fetching data</string>
+    <string name="show_more">Show More</string>
+    <string name="show_less">Show Less</string>
+    <string name="not_review">No Reviews Yet</string>
+    <string name="see_all"><u>See All Reviews</u></string>
 </resources>

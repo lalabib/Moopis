@@ -1,6 +1,7 @@
 package com.latihan.lalabib.moopis.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.latihan.lalabib.moopis.data.local.LocalDataSource
@@ -9,6 +10,7 @@ import com.latihan.lalabib.moopis.data.remote.ApiResponse
 import com.latihan.lalabib.moopis.data.remote.RemoteDataSource
 import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
 import com.latihan.lalabib.moopis.data.remote.response.MoviesResponse
+import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
 import com.latihan.lalabib.moopis.utils.AppExecutors
 import com.latihan.lalabib.moopis.utils.Resource
 
@@ -67,6 +69,16 @@ class MoopisRepository(
                 localDataSource.updateMovie(movie)
             }
         }.asLiveData()
+    }
+
+    override fun getReview(id: String): LiveData<ReviewsResponse> {
+        val reviews = MutableLiveData<ReviewsResponse>()
+        remoteDataSource.getReview(id, object : RemoteDataSource.LoadReviewCallback {
+            override fun reviewReceived(reviewResponse: ReviewsResponse) {
+                reviews.postValue(reviewResponse)
+            }
+        })
+        return reviews
     }
 
     companion object {

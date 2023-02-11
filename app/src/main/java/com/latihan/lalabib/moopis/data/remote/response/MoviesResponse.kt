@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 
 data class MoviesResponse(
-    @field:SerializedName("results")
+    @SerializedName("results")
     val results: ArrayList<MoviesEntity>
 )
