@@ -81,6 +81,18 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_release_date_title" />
 
         <TextView
+            android:id="@+id/tv_trailer"
+            style="@style/tv_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/trailer"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tv_release_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_release_date"/>
+
+        <TextView
             android:id="@+id/tv_overview_title"
             style="@style/tv_color"
             android:layout_width="wrap_content"
@@ -89,8 +101,8 @@
             android:text="@string/overview_title"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_release_date" />
+            app:layout_constraintStart_toStartOf="@+id/tv_trailer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trailer" />
 
         <TextView
             android:id="@+id/tv_overview"

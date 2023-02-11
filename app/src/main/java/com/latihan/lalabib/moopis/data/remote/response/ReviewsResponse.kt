@@ -3,6 +3,8 @@ package com.latihan.lalabib.moopis.data.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class ReviewsResponse(
+    @SerializedName("id")
+    val id: String?,
     @SerializedName("results")
     val results: ArrayList<ReviewsEntity>
 )

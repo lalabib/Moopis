@@ -13,6 +13,7 @@ import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 import com.latihan.lalabib.moopis.databinding.ActivityDetailBinding
 import com.latihan.lalabib.moopis.utils.IMG_URL
 import com.latihan.lalabib.moopis.utils.Status
+import com.latihan.lalabib.moopis.utils.VIDEO_URL
 import com.latihan.lalabib.moopis.utils.ViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
@@ -115,5 +116,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_DATA = "extra_data"
+        const val VIDEO = VIDEO_URL + "BRb4U99OU80"
     }
 }
