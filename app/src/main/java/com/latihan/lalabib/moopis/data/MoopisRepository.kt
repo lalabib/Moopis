@@ -2,48 +2,36 @@ package com.latihan.lalabib.moopis.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.paging.*
 import com.latihan.lalabib.moopis.data.local.LocalDataSource
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
+import com.latihan.lalabib.moopis.data.local.room.MoopisDatabase
 import com.latihan.lalabib.moopis.data.remote.ApiResponse
 import com.latihan.lalabib.moopis.data.remote.RemoteDataSource
 import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
-import com.latihan.lalabib.moopis.data.remote.response.MoviesResponse
 import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
+import com.latihan.lalabib.moopis.networking.ApiEndPoint
 import com.latihan.lalabib.moopis.utils.AppExecutors
 import com.latihan.lalabib.moopis.utils.Resource
 
 class MoopisRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors
+    private val appExecutors: AppExecutors,
+    private val database: MoopisDatabase,
+    private val apiService: ApiEndPoint
 ) : MoopisDataSource {
 
-    override fun getMovie(): LiveData<Resource<PagedList<MoviesEntity>>> {
-        return object :
-            NetworkBoundResource<PagedList<MoviesEntity>, MoviesResponse>(appExecutors) {
-            public override fun loadFromDB(): LiveData<PagedList<MoviesEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(8)
-                    .setPageSize(8)
-                    .build()
-
-                return LivePagedListBuilder(localDataSource.getMovie(), config).build()
+    fun getAllMovies(): LiveData<PagingData<MoviesEntity>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(pageSize = 8),
+            remoteMediator = MoopisRemoteMediator(database, apiService),
+            pagingSourceFactory = {
+                //MoopisPagingSource(apiService)
+                database.movieDao().getAllMovie()
             }
-
-            override fun shouldFetch(data: PagedList<MoviesEntity>?): Boolean =
-                //data == null || data.isEmpty()
-                true //replace it with true if you want to always retrieve data from the internet
-
-            override fun createCall(): LiveData<ApiResponse<MoviesResponse>> =
-                remoteDataSource.getMovie()
-
-            override fun saveCallResult(data: MoviesResponse) {
-                localDataSource.insertMovie(data.results)
-            }
-        }.asLiveData()
+        ).liveData
     }
 
     override fun getDetailMovie(id: String): LiveData<Resource<MoviesEntity>> {
@@ -88,10 +76,18 @@ class MoopisRepository(
         fun getInstance(
             remoteDataSource: RemoteDataSource,
             localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
+            appExecutors: AppExecutors,
+            database: MoopisDatabase,
+            apiService: ApiEndPoint
         ): MoopisRepository =
             instance ?: synchronized(this) {
-                instance ?: MoopisRepository(remoteDataSource, localDataSource, appExecutors)
+                instance ?: MoopisRepository(
+                    remoteDataSource,
+                    localDataSource,
+                    appExecutors,
+                    database,
+                    apiService
+                )
             }
     }
 }

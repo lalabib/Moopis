@@ -2,7 +2,7 @@ package com.latihan.lalabib.moopis.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,7 +12,8 @@ import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 import com.latihan.lalabib.moopis.databinding.ItemMovieBinding
 import com.latihan.lalabib.moopis.utils.IMG_URL
 
-class MovieAdapter(private val onItemClick: (MoviesEntity) -> Unit) : PagedListAdapter<MoviesEntity, MovieAdapter.MovieViewHolder>(DIFFUTIL) {
+class MovieAdapter(private val onItemClick: (MoviesEntity) -> Unit) :
+    PagingDataAdapter<MoviesEntity, MovieAdapter.MovieViewHolder>(DIFFUTIL) {
 
     private object DIFFUTIL: DiffUtil.ItemCallback<MoviesEntity>() {
         override fun areItemsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean {

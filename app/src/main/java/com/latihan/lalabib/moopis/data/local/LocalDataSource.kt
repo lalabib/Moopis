@@ -8,10 +8,6 @@ import com.latihan.lalabib.moopis.data.local.room.MoopisDao
 
 class LocalDataSource(private val moopisDao: MoopisDao) {
 
-    fun getMovie(): DataSource.Factory<Int, MoviesEntity> = moopisDao.getMovie()
-
-    fun insertMovie(movie: List<MoviesEntity>) = moopisDao.insertMovie(movie)
-
     fun getDetailMovie(id: String): LiveData<MoviesEntity> = moopisDao.getDetailMovie(id)
 
     fun updateMovie(movie: MoviesEntity) {

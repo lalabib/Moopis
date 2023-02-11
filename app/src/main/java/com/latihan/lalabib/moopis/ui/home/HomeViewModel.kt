@@ -1,13 +1,13 @@
 package com.latihan.lalabib.moopis.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.latihan.lalabib.moopis.data.MoopisRepository
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
-import com.latihan.lalabib.moopis.utils.Resource
 
-class HomeViewModel(private val moopisRepository: MoopisRepository): ViewModel() {
+class HomeViewModel(moopisRepository: MoopisRepository): ViewModel() {
 
-    fun getMovies(): LiveData<Resource<PagedList<MoviesEntity>>> = moopisRepository.getMovie()
+    val movie: LiveData<PagingData<MoviesEntity>> =
+        moopisRepository.getAllMovies().cachedIn(viewModelScope)
 }

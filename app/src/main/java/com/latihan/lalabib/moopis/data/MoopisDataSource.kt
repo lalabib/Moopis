@@ -8,8 +8,6 @@ import com.latihan.lalabib.moopis.utils.Resource
 
 interface MoopisDataSource {
 
-    fun getMovie(): LiveData<Resource<PagedList<MoviesEntity>>>
-
     fun getDetailMovie(id: String): LiveData<Resource<MoviesEntity>>
 
     fun getReview(id: String): LiveData<ReviewsResponse>

@@ -4,13 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.latihan.lalabib.moopis.R
 import com.latihan.lalabib.moopis.databinding.ActivityHomeBinding
 import com.latihan.lalabib.moopis.ui.detail.DetailActivity
-import com.latihan.lalabib.moopis.utils.Status
 import com.latihan.lalabib.moopis.utils.ViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
@@ -45,22 +43,16 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        homeViewModel.getMovies().observe(this) { movies ->
-            if (movies != null) {
-                when (movies.status) {
-                    Status.LOADING -> {
-                        showLoading(true)
-                    }
-                    Status.SUCCESS -> {
-                        showLoading(false)
-                        movieAdapter.submitList(movies.data)
-                    }
-                    Status.ERROR -> {
-                        showLoading(false)
-                        Toast.makeText(this@HomeActivity, R.string.error_message, Toast.LENGTH_SHORT).show()
-                    }
-                }
+        binding.rvMovies.adapter = movieAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                movieAdapter.retry()
             }
+        )
+
+        showLoading(true)
+        homeViewModel.movie.observe(this@HomeActivity) {
+            movieAdapter.submitData(lifecycle, it)
+            showLoading(false)
         }
 
         binding.apply {

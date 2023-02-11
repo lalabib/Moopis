@@ -6,7 +6,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.latihan.lalabib.moopis.data.MoopisRepository
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
-import com.latihan.lalabib.moopis.data.remote.response.ReviewsEntity
 import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
 import com.latihan.lalabib.moopis.utils.Resource
 

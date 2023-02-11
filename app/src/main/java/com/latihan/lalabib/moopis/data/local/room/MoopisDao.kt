@@ -2,17 +2,18 @@ package com.latihan.lalabib.moopis.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 
 @Dao
 interface MoopisDao {
 
-    @Query("SELECT * From movie_entities")
-    fun getMovie(): DataSource.Factory<Int, MoviesEntity>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movie: List<MoviesEntity>)
+    suspend fun insertMovie(movie: MoviesEntity)
+
+    @Query("SELECT * From movie_entities")
+    fun getAllMovie(): PagingSource<Int, MoviesEntity>
 
     @Transaction
     @Query("SELECT * From movie_entities WHERE id = :id")
@@ -20,4 +21,7 @@ interface MoopisDao {
 
     @Update
     fun updateMovie(movie: MoviesEntity)
+
+    @Query("DELETE From movie_entities")
+    suspend fun deleteAll()
 }

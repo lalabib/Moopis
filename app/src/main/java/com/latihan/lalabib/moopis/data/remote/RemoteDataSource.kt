@@ -14,30 +14,9 @@ import retrofit2.Response
 
 class RemoteDataSource {
 
-    fun getMovie(): LiveData<ApiResponse<MoviesResponse>> {
-        val resultMovie = MutableLiveData<ApiResponse<MoviesResponse>>()
-        ApiConfig.instance.getMovie(apiKey).enqueue(object : Callback<MoviesResponse> {
-            override fun onResponse(
-                call: Call<MoviesResponse>,
-                response: Response<MoviesResponse>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let { resultMovie.value = ApiResponse.success(it) }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-        return resultMovie
-    }
-
     fun getDetailMovie(id: String): LiveData<ApiResponse<DetailMovieResponse>> {
         val resultDetailMovie = MutableLiveData<ApiResponse<DetailMovieResponse>>()
-        ApiConfig.instance.getDetailMovie(id, apiKey)
+        ApiConfig.getApiEndPoint().getDetailMovie(id, apiKey)
             .enqueue(object : Callback<DetailMovieResponse> {
                 override fun onResponse(
                     call: Call<DetailMovieResponse>,
@@ -58,7 +37,7 @@ class RemoteDataSource {
     }
 
     fun getReview(id: String, callback: LoadReviewCallback) {
-        ApiConfig.instance.getReview(id, apiKey).enqueue(object : Callback<ReviewsResponse> {
+        ApiConfig.getApiEndPoint().getReview(id, apiKey).enqueue(object : Callback<ReviewsResponse> {
             override fun onResponse(
                 call: Call<ReviewsResponse>,
                 response: Response<ReviewsResponse>

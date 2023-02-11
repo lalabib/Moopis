@@ -18,4 +18,6 @@
     <string name="not_review">No Reviews Yet</string>
     <string name="see_all"><u>See All Reviews</u></string>
     <string name="trailer">Trailer</string>
+    <string name="time_out">Timeout</string>
+    <string name="retry">Retry</string>
 </resources>
