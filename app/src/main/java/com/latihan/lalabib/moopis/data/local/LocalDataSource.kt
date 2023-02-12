@@ -1,7 +1,6 @@
 package com.latihan.lalabib.moopis.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
 import com.latihan.lalabib.moopis.data.local.room.MoopisDao
 
