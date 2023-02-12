@@ -1,20 +1,25 @@
 package com.latihan.lalabib.moopis.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.latihan.lalabib.moopis.R
+import com.latihan.lalabib.moopis.adapter.ReviewAdapter
 import com.latihan.lalabib.moopis.data.local.entity.MoviesEntity
+import com.latihan.lalabib.moopis.data.remote.response.VideosEntity
 import com.latihan.lalabib.moopis.databinding.ActivityDetailBinding
 import com.latihan.lalabib.moopis.utils.IMG_URL
 import com.latihan.lalabib.moopis.utils.Status
-import com.latihan.lalabib.moopis.utils.VIDEO_URL
 import com.latihan.lalabib.moopis.utils.ViewModelFactory
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 
 class DetailActivity : AppCompatActivity() {
 
@@ -53,6 +58,8 @@ class DetailActivity : AppCompatActivity() {
             if (id != null) {
                 detailViewModel.setMoviesData(id)
                 detailViewModel.setReviewsData(id)
+                detailViewModel.setVideosData(id)
+
                 detailViewModel.detailMovie.observe(this) { detailMovie ->
                     when (detailMovie.status) {
                         Status.LOADING -> showLoading(true)
@@ -69,6 +76,11 @@ class DetailActivity : AppCompatActivity() {
                                     }
                                 } else {
                                     reviewAdapter.submitList(reviewData.results)
+                                }
+                            }
+                            detailViewModel.videoData.observe(this) { data ->
+                                data.results.forEach {
+                                    youtubePlayer(it)
                                 }
                             }
                         }
@@ -105,6 +117,28 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun youtubePlayer(video: VideosEntity) {
+        val youTubePlayerView = binding.youtubePlayer
+        lifecycle.addObserver(youTubePlayerView)
+
+        youTubePlayerView.enableAutomaticInitialization = false
+
+        val listener = object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                // using pre-made custom ui
+                val defaultPlayerUiController = DefaultPlayerUiController(youTubePlayerView, youTubePlayer)
+                youTubePlayerView.setCustomPlayerUi(defaultPlayerUiController.rootView)
+
+                // play video
+                val videoId = video.key!!
+                youTubePlayer.cueVideo(videoId, 0f)
+            }
+        }
+        // disable iframe ui
+        val options = IFramePlayerOptions.Builder().controls(0).build()
+        youTubePlayerView.initialize(listener, options)
+    }
+
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
@@ -116,6 +150,5 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_DATA = "extra_data"
-        const val VIDEO = VIDEO_URL + "BRb4U99OU80"
     }
 }

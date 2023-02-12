@@ -7,6 +7,8 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.latihan.lalabib.moopis.R
+import com.latihan.lalabib.moopis.adapter.LoadingStateAdapter
+import com.latihan.lalabib.moopis.adapter.MovieAdapter
 import com.latihan.lalabib.moopis.databinding.ActivityHomeBinding
 import com.latihan.lalabib.moopis.ui.detail.DetailActivity
 import com.latihan.lalabib.moopis.utils.ViewModelFactory

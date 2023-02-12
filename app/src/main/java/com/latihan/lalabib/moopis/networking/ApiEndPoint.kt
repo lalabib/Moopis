@@ -3,6 +3,7 @@ package com.latihan.lalabib.moopis.networking
 import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
 import com.latihan.lalabib.moopis.data.remote.response.MoviesResponse
 import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
+import com.latihan.lalabib.moopis.data.remote.response.VideosResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -20,10 +21,18 @@ interface ApiEndPoint {
     @GET("movie/{movie_id}")
     fun getDetailMovie(
         @Path("movie_id") movieId: String,
-        @Query("api_key") apiKey: String): Call<DetailMovieResponse>
+        @Query("api_key") apiKey: String
+    ): Call<DetailMovieResponse>
 
     @GET("movie/{movie_id}/reviews")
     fun getReview(
         @Path("movie_id") movieId: String,
-        @Query("api_key") apiKey: String): Call<ReviewsResponse>
+        @Query("api_key") apiKey: String
+    ): Call<ReviewsResponse>
+
+    @GET("movie/{movie_id}/videos")
+    fun getVideo(
+        @Path("movie_id") movieId: String,
+        @Query("api_key") apiKey: String
+    ): Call<VideosResponse>
 }

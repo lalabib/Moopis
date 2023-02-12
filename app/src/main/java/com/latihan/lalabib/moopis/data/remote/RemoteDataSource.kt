@@ -3,11 +3,11 @@ package com.latihan.lalabib.moopis.data.remote
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.latihan.lalabib.moopis.data.remote.response.MoviesResponse
 import com.latihan.lalabib.moopis.networking.ApiConfig
 import com.latihan.lalabib.moopis.BuildConfig.apiKey
 import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
 import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
+import com.latihan.lalabib.moopis.data.remote.response.VideosResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,8 +55,31 @@ class RemoteDataSource {
         })
     }
 
+    fun getVideo(id: String, callback: LoadVideoCallback) {
+        ApiConfig.getApiEndPoint().getVideo(id, apiKey).enqueue(object : Callback<VideosResponse> {
+            override fun onResponse(
+                call: Call<VideosResponse>,
+                response: Response<VideosResponse>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { callback.videoReceived(it) }
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<VideosResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
     interface LoadReviewCallback {
         fun reviewReceived(reviewResponse: ReviewsResponse)
+    }
+
+    interface LoadVideoCallback {
+        fun videoReceived(videosResponse: VideosResponse)
     }
 
     companion object {

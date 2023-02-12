@@ -10,6 +10,7 @@ import com.latihan.lalabib.moopis.data.remote.ApiResponse
 import com.latihan.lalabib.moopis.data.remote.RemoteDataSource
 import com.latihan.lalabib.moopis.data.remote.response.DetailMovieResponse
 import com.latihan.lalabib.moopis.data.remote.response.ReviewsResponse
+import com.latihan.lalabib.moopis.data.remote.response.VideosResponse
 import com.latihan.lalabib.moopis.networking.ApiEndPoint
 import com.latihan.lalabib.moopis.utils.AppExecutors
 import com.latihan.lalabib.moopis.utils.Resource
@@ -67,6 +68,16 @@ class MoopisRepository(
             }
         })
         return reviews
+    }
+
+    override fun getVideo(id: String): LiveData<VideosResponse> {
+        val videos = MutableLiveData<VideosResponse>()
+        remoteDataSource.getVideo(id, object : RemoteDataSource.LoadVideoCallback {
+            override fun videoReceived(videosResponse: VideosResponse) {
+                videos.postValue(videosResponse)
+            }
+        })
+        return videos
     }
 
     companion object {

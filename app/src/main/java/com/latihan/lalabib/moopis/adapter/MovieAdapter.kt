@@ -1,4 +1,4 @@
-package com.latihan.lalabib.moopis.ui.home
+package com.latihan.lalabib.moopis.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
