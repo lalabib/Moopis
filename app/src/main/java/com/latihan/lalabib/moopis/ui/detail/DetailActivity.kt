@@ -79,7 +79,7 @@ class DetailActivity : AppCompatActivity() {
                                 }
                             }
                             detailViewModel.videoData.observe(this) { data ->
-                                data.results.forEach {
+                                data.results.last().let {
                                     youtubePlayer(it)
                                 }
                             }

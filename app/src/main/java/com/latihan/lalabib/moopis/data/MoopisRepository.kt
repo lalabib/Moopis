@@ -29,7 +29,6 @@ class MoopisRepository(
             config = PagingConfig(pageSize = 8),
             remoteMediator = MoopisRemoteMediator(database, apiService),
             pagingSourceFactory = {
-                //MoopisPagingSource(apiService)
                 database.movieDao().getAllMovie()
             }
         ).liveData
