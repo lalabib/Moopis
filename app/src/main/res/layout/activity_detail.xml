@@ -90,18 +90,18 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/tv_release_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_release_date"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_release_date" />
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_trailer"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trailer" />
 
         <TextView
             android:id="@+id/tv_overview_title"
@@ -142,8 +142,8 @@
             android:id="@+id/rv_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_review_title"
             app:layout_constraintTop_toBottomOf="@id/tv_review_title"
